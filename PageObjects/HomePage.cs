@@ -8,11 +8,11 @@ namespace Lesson_7_PageObject.PageObjects
 
         public HomePage() : base(HomeLnl, "Yandex Mail") {}
 
-        private readonly BaseElement _loginButton = new BaseElement(By.XPath("//*[text()='Log in']/ancestor::button"));
+        private readonly BaseElement loginButton = new BaseElement(By.XPath("//*[text()='Log in']/ancestor::a"));
 
         public void GoToLogin()
         {
-            _loginButton.Click();
+            loginButton.Click();
         }
     }
 }

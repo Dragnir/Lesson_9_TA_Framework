@@ -10,71 +10,71 @@ namespace Lesson_7_PageObject.PageObjects
 {
     public class BaseElement : IWebElement
     {
-        private IWebDriver _driver = Browser.GetDriver();
-        protected string _name;
-        protected By _locator;
-        protected IWebElement _element;
+        private IWebDriver driver = Browser.GetDriver();
+        protected string name;
+        protected By locator;
+        protected IWebElement element;
 
         public BaseElement(By locator, string name)
         {
-            _locator = locator;
-            _name = name == "" ? GetText() : name;
+            this.locator = locator;
+            this.name = name == "" ? GetText() : name;
         }
 
         public BaseElement(By locator)
         {
-            _locator = locator;
+            this.locator = locator;
         }
 
         public string GetText()
         {
             WaitForIsVisible();
-            return _element.Text;
+            return element.Text;
         }
 
         public IWebElement GetWebElement()
         {
-            return _element = Browser.GetDriver().FindElement(_locator);
+            return element = Browser.GetDriver().FindElement(locator);
         }
 
         public void WaitForIsVisible()
         {
-            var wait = new WebDriverWait(_driver, new TimeSpan(0, 0, 10));
+            var wait = new WebDriverWait(driver, new TimeSpan(0, 0, 10));
             var element = wait.Until(condition =>
             {
-                var elementToBeDisplayed = _driver.FindElement(_locator);
+                var elementToBeDisplayed = driver.FindElement(locator);
                 return elementToBeDisplayed.Displayed;
             });
         }
 
         public void WebElementClickable()
         {
-            var wait = new WebDriverWait(_driver, new TimeSpan(0, 0, 5));
-            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(_locator));
+            var wait = new WebDriverWait(driver, new TimeSpan(0, 0, 5));
+            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(locator));
         }
 
         public bool WebElementExist()
         {
-            var wait = new WebDriverWait(_driver, new TimeSpan(0, 0, 5));
-            return wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(_locator)).Enabled; 
+            var wait = new WebDriverWait(driver, new TimeSpan(0, 0, 5));
+            return wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(locator)).Enabled; 
         }
 
         public void Click()
         {
             WaitForIsVisible();
-            Browser.GetDriver().FindElement(_locator).Click();
+            Browser.GetDriver().FindElement(locator).Click();
         }
 
         public void ActionClick()
         {
             WaitForIsVisible();
-            new Actions(_driver).Click(this.GetWebElement()).Build().Perform();
+            new Actions(driver).Click(this.GetWebElement()).Build().Perform();
         }
 
         public void ActionSendKeys(string text)
         {
             WaitForIsVisible();
-            new Actions(_driver).SendKeys(this.GetWebElement(), text).Build().Perform();
+            new Actions(driver).SendKeys(this.GetWebElement(), text).Build().Perform();
         }
 
         public void JsClick()
@@ -86,7 +86,7 @@ namespace Lesson_7_PageObject.PageObjects
 
         public void JsHighlightElement()
         {
-            IJavaScriptExecutor js = _driver as IJavaScriptExecutor;
+            IJavaScriptExecutor js = driver as IJavaScriptExecutor;
             js.ExecuteScript("arguments[0].style.backgroundColor = '" + "yellow" + "'", this.GetWebElement());
         }
 
@@ -94,7 +94,7 @@ namespace Lesson_7_PageObject.PageObjects
         public void SendKeys(string text)
         {
             WaitForIsVisible();
-            Browser.GetDriver().FindElement(_locator).SendKeys(text);
+            Browser.GetDriver().FindElement(locator).SendKeys(text);
         }
 
         public void Submit()

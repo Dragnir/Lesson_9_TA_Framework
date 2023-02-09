@@ -20,10 +20,10 @@ namespace Lesson_7_PageObject.Tests
             Browser.NavigateTo(Configuration.StartUrl);
         }
 
-        //[TearDown]
-        //public virtual void CleanTest()
-        //{
-        //    Browser.Quit();
-        //}
+        [TearDown]
+        public virtual void CleanTest()
+        {
+            Browser.Quit();
+        }
     }
 }
