@@ -1,6 +1,7 @@
 ﻿using Lesson_7_PageObject.PageObjects;
+using Lesson_9_TA_FrameWork.BusinesObject;
+using Lesson_9_TA_FrameWork.Utils;
 using NUnit.Framework;
-using System.Threading;
 
 namespace Lesson_7_PageObject.Tests
 {
@@ -9,8 +10,8 @@ namespace Lesson_7_PageObject.Tests
         private HomePage homePage;
         private LoginPage loginPage;
         private MailPage mailPage;
-        private string userName = "vadim.kuryan.vka";
-        private string password = "Vka_6463296";
+        private readonly User user = new User("vadim.kuryan.vka", "Vka_6463296");
+        private readonly Mail mail = new Mail("dragnir@tut.by", "TestSubject", "TestBody");
 
         [Test]
         public void SendDraftedMailTest()
@@ -18,11 +19,10 @@ namespace Lesson_7_PageObject.Tests
             homePage = new HomePage();
             homePage.GoToLogin();
             loginPage = new LoginPage();
-            loginPage.SetLogin(userName);
-            loginPage.SetPassword(password);
+            loginPage.LogInAsUser(user);
             loginPage.SignIn();
             mailPage = new MailPage();
-            mailPage.WriteNewMail("dragnir@tut.by", "TestSubject", "TestBody");
+            mailPage.WriteNewMail(mail);
             mailPage.SaveMailAsDraft();
             mailPage.GoToDraftFolder();
             Assert.IsTrue(mailPage.dratedMail.WebElementExist());
@@ -39,8 +39,8 @@ namespace Lesson_7_PageObject.Tests
             homePage = new HomePage();
             homePage.GoToLogin();
             loginPage = new LoginPage();
-            loginPage.SetLogin(userName);
-            loginPage.SetPassword("incorrectPassword");
+            loginPage.SetLogin(user.DataUser[0]);
+            loginPage.SetPassword(PasswordGenerator.CreatePassword(15));
             loginPage.SignIn();
             Assert.IsTrue(loginPage.errorMesage.WebElementExist());
         }
@@ -51,11 +51,10 @@ namespace Lesson_7_PageObject.Tests
             homePage = new HomePage();
             homePage.GoToLogin();
             loginPage = new LoginPage();
-            loginPage.SetLogin(userName);
-            loginPage.SetPassword(password);
+            loginPage.LogInAsUser(user);
             loginPage.SignIn();
             mailPage = new MailPage();
-            mailPage.WriteNewMail("dragnir@tut.by", "TestSubject", "TestBody");
+            mailPage.WriteNewMail(mail);
             mailPage.sendMail.ActionClick();
             mailPage.sendFolder.ActionClick();
             Assert.IsTrue(mailPage.savedMail.WebElementExist());

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Lesson_9_TA_FrameWork.BusinesObject
 {
     public class User
@@ -13,5 +8,11 @@ namespace Lesson_9_TA_FrameWork.BusinesObject
 
         public string[] DataUser { get; private set; }
 
+        public User(string name, string password)
+        {
+            this.name = name;
+            this.password = password;
+            DataUser = new[] { this.name, this.password };
+        }
     }
 }

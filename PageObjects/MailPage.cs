@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using Lesson_9_TA_FrameWork.BusinesObject;
+using OpenQA.Selenium;
 
 namespace Lesson_7_PageObject.PageObjects
 {
@@ -28,13 +29,13 @@ namespace Lesson_7_PageObject.PageObjects
             return userAccount.Text;
         }
 
-        public void WriteNewMail(string address, string subject, string body)
+        public void WriteNewMail(Mail mail)
         {
             writeNewMail.Click();
-            addressField.SendKeys(address);
+            addressField.SendKeys(mail.DataMail[0]);
             this.subject.WebElementExist();
-            this.subject.SendKeys(subject);
-            this.body.SendKeys(body);
+            this.subject.SendKeys(mail.DataMail[1]);
+            this.body.SendKeys(mail.DataMail[2]);
         }
 
         public void SaveMailAsDraft()

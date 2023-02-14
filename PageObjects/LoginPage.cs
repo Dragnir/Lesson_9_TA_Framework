@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using Lesson_9_TA_FrameWork.BusinesObject;
+using OpenQA.Selenium;
 
 namespace Lesson_7_PageObject.PageObjects
 {
@@ -20,11 +21,19 @@ namespace Lesson_7_PageObject.PageObjects
             loginField.SendKeys(loginName);
         }
 
-        public void SetPassword(string loginName)
+        public void SetPassword(string password)
         {
             setPassword.Click();
             passwordField.WaitForIsVisible();
-            passwordField.SendKeys(loginName);
+            passwordField.SendKeys(password);
+        }
+
+        public void LogInAsUser(User user)
+        {
+            SetLogin(user.DataUser[0]);
+            setPassword.Click();
+            passwordField.WaitForIsVisible();
+            passwordField.SendKeys(user.DataUser[1]);
         }
 
         public void SignIn()
